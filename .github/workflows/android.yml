@@ -14,6 +14,11 @@ on:
       - '.github/workflows/android.yml'
   pull_request:
   workflow_dispatch:
+    inputs:
+      publish_release:
+        description: Publier l'APK et la PWA dans une release GitHub
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -54,6 +59,8 @@ jobs:
     name: APK Android (Capacitor)
     needs: web
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7.0.1
@@ -85,3 +92,26 @@ jobs:
           path: dist/SprintTimer.apk
           if-no-files-found: error
           retention-days: 30
+      - name: Publier la release GitHub
+        if: ${{ inputs.publish_release }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: v1.0.${{ github.run_number }}
+        run: |
+          (cd web && zip -qr ../dist/SprintTimer-PWA.zip .)
+          cat > dist/notes.md <<'NOTES'
+          ## SprintTimer pour Android et navigateur
+
+          Photo-finish, vidéo-finish, arrivée instantanée et chronomètre, avec départs manuel, bip, compte à rebours ou micro.
+
+          ### Android
+          Télécharger **SprintTimer.apk** sur le téléphone, l'ouvrir et autoriser l'installation depuis cette source. Chaque nouvelle version s'installe par-dessus la précédente sans perdre les courses.
+
+          ### Navigateur (PWA)
+          Décompresser **SprintTimer-PWA.zip** et le publier sur une adresse HTTPS (par exemple en le glissant sur https://app.netlify.com/drop), puis l'installer depuis Chrome ou Safari (« Sur l'écran d'accueil »).
+
+          Cadence caméra en général limitée à 30 ou 60 i/s selon le téléphone. Application non certifiée pour le chronométrage officiel. Détails : PWA_ANDROID.md.
+          NOTES
+          gh release create "$TAG" dist/SprintTimer.apk dist/SprintTimer-PWA.zip \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "SprintTimer $TAG (Android + PWA)" --notes-file dist/notes.md --latest

@@ -13,6 +13,10 @@ Elle fonctionne sur Android et sur iPhone sans Mac, sans Xcode et sans compte Ap
 
 ## Obtenir l'APK
 
+Le plus simple : la page **Releases** du dépôt, qui contient `SprintTimer.apk` et `SprintTimer-PWA.zip` pour chaque version publiée. Pour publier une nouvelle version : onglet **Actions** → **PWA & Android** → **Run workflow**, cocher « Publier l'APK et la PWA dans une release GitHub ». La release `v1.0.<numéro>` est créée après les tests.
+
+Sans release, chaque exécution du workflow garde aussi l'APK en artefact pendant 30 jours :
+
 Le workflow GitHub Actions **PWA & Android** (`.github/workflows/android.yml`) se lance à chaque push qui modifie la version web ou Android. Il peut aussi être lancé à la main.
 
 1. Ouvrir l'onglet **Actions** du dépôt, puis la dernière exécution réussie de **PWA & Android**.
