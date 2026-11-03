@@ -14,6 +14,7 @@ struct HomeView: View {
     @State private var creating = false
     @State private var guide = false
     @State private var active: ActiveRace?
+    @State private var pendingRace: RaceDocument?
     @State private var problem: String?
     @State private var deleting: StoredRace?
 
@@ -59,14 +60,15 @@ struct HomeView: View {
             }
             .navigationTitle("SprintTimer")
             .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Guide", systemImage: "questionmark.circle") { guide = true } } }
-            .sheet(isPresented: $creating) {
+            .sheet(isPresented: $creating, onDismiss: {
+                if let pendingRace {
+                    active = ActiveRace(race: pendingRace, reopening: false)
+                    self.pendingRace = nil
+                }
+            }) {
                 NewRaceView { document in
+                    pendingRace = document
                     creating = false
-                    // Present on the next run loop after dismissing the creation sheet.
-                    Task { @MainActor in
-                        try? await Task.sleep(for: .milliseconds(300))
-                        active = ActiveRace(race: document, reopening: false)
-                    }
                 }
             }
             .sheet(isPresented: $guide) { GuideView() }

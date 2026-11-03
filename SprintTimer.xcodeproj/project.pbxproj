@@ -44,6 +44,8 @@
 		9BF494612501CC2622F7C9B3 /* ExportTests.swift */ = { isa = PBXBuildFile; fileRef = CD256DB61062BCB9B0914147; };
 		8028192624DA5735936FF226 /* MediaPersistenceTests.swift */ = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "SprintTimerTests/MediaPersistenceTests.swift"; sourceTree = SOURCE_ROOT; };
 		A08BA2C2AD1DE712C37AEAE3 /* MediaPersistenceTests.swift */ = { isa = PBXBuildFile; fileRef = 8028192624DA5735936FF226; };
+		198CBA01EAE17AD5252FAD49 /* VideoFinishEngineTests.swift */ = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "SprintTimerTests/VideoFinishEngineTests.swift"; sourceTree = SOURCE_ROOT; };
+		A00AC294EC7E917EFEB0DC51 /* VideoFinishEngineTests.swift */ = { isa = PBXBuildFile; fileRef = 198CBA01EAE17AD5252FAD49; };
 		C8D746DECE44083A5267CEC7 /* SprintTimerUITests.swift */ = { isa = PBXFileReference; lastKnownFileType = "sourcecode.swift"; path = "SprintTimerUITests/SprintTimerUITests.swift"; sourceTree = SOURCE_ROOT; };
 		0670EE133A16E1EAA264C5CF /* SprintTimerUITests.swift */ = { isa = PBXBuildFile; fileRef = C8D746DECE44083A5267CEC7; };
 		A20E718C94F8D64C7776E8AA /* Assets.xcassets */ = { isa = PBXFileReference; lastKnownFileType = "folder.assetcatalog"; path = "SprintTimer/Resources/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
@@ -55,7 +57,7 @@
 		2E635C1267B14E15F71F5D1A /* SprintTimerUITests.xctest */ = { isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SprintTimerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59BD0A3FF43B32849B319E64 /* Info.plist */ = { isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SprintTimer/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 		96DC7B6B5526E30EFB51C316 /* source-group */ = { isa = PBXGroup; children = (DBA76BCC61509B93691FAA89, 4780B58B6D4D076B65063EAD, 38C10154239BE0BC08780D85, AFA24CBBCF507F58227291B1, 8BC20121BD347CD82AAA85D9, 7BB848842E73CF6EB65D726C, 24CB0157CA0474A5FA946EB6, 5CDA100225A563BCA9EF6C45, 414ED0662AF25C81FA395648, CE4986844DA269D3DB716949, 1F2F8C6C9509A28188D60B6C, F584669E424A36A11F0F42F7, 6678CA42468D2721AEC48AF2, 8C1AEA81BA60D0A3DBCD6C20, 5B9DF7EBC3DB153E3563ECF3, 4E092B0BF644CBA846727D42, CD3005A06E12BA3DE56AA515, A20E718C94F8D64C7776E8AA, 55A41F71D9EBF8A3465D7821, 59BD0A3FF43B32849B319E64); name = SprintTimer; sourceTree = "<group>"; };
-		E717C295FF9827DFF805D88B /* test-group */ = { isa = PBXGroup; children = (CE351640B4DE7180AC8FF645, CD256DB61062BCB9B0914147, 8028192624DA5735936FF226); name = SprintTimerTests; sourceTree = "<group>"; };
+		E717C295FF9827DFF805D88B /* test-group */ = { isa = PBXGroup; children = (CE351640B4DE7180AC8FF645, CD256DB61062BCB9B0914147, 8028192624DA5735936FF226, 198CBA01EAE17AD5252FAD49); name = SprintTimerTests; sourceTree = "<group>"; };
 		DD3429FC8319BB3A23E9614F /* uitest-group */ = { isa = PBXGroup; children = (C8D746DECE44083A5267CEC7); name = SprintTimerUITests; sourceTree = "<group>"; };
 		FBDC4F23F93125BBEEAE800C /* products */ = { isa = PBXGroup; children = (4E783A9E10D2A8ABA38CD11C, 6C7CCDEB3609F1FAA874E941, 2E635C1267B14E15F71F5D1A); name = Products; sourceTree = "<group>"; };
 		870B3294C0CBD48AF6BBCC1B /* main-group */ = { isa = PBXGroup; children = (96DC7B6B5526E30EFB51C316, E717C295FF9827DFF805D88B, DD3429FC8319BB3A23E9614F, FBDC4F23F93125BBEEAE800C); sourceTree = "<group>"; };
@@ -64,7 +66,7 @@
 		EDD025E3D932983F215E04C3 /* app-package */ = { isa = XCSwiftPackageProductDependency; package = CF21FADD42EAB8F8303A3895; productName = SprintTimerCore; };
 		0D707C158BA930735F25B8D6 /* SprintTimerCore in Frameworks */ = { isa = PBXBuildFile; productRef = EDD025E3D932983F215E04C3; };
 		BD92572B49AC16A86614498D /* app-frameworks */ = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (0D707C158BA930735F25B8D6); runOnlyForDeploymentPostprocessing = 0; };
-		73449B7401E2150CE31884A3 /* tests-sources */ = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (4255143D9334DF74C2897696, 9BF494612501CC2622F7C9B3, A08BA2C2AD1DE712C37AEAE3); runOnlyForDeploymentPostprocessing = 0; };
+		73449B7401E2150CE31884A3 /* tests-sources */ = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (4255143D9334DF74C2897696, 9BF494612501CC2622F7C9B3, A08BA2C2AD1DE712C37AEAE3, A00AC294EC7E917EFEB0DC51); runOnlyForDeploymentPostprocessing = 0; };
 		7AB1BC06231813FA800FC177 /* tests-resources */ = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 		2F3D53CBCE0457CA9561FCC8 /* tests-package */ = { isa = XCSwiftPackageProductDependency; package = CF21FADD42EAB8F8303A3895; productName = SprintTimerCore; };
 		D799F594DED57FC5126B3063 /* SprintTimerCore in Frameworks */ = { isa = PBXBuildFile; productRef = 2F3D53CBCE0457CA9561FCC8; };

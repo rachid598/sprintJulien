@@ -20,9 +20,10 @@ struct VideoReviewView: View {
                     let aspect: CGFloat = image.size.width / image.size.height
                     let width: CGFloat = min(geometry.size.width, geometry.size.height * aspect)
                     let height: CGFloat = width / aspect
+                    let lineX: CGFloat = (geometry.size.width - width) * CGFloat(0.5) + width * CGFloat(race.settings.linePosition)
+                    let lineY: CGFloat = geometry.size.height * CGFloat(0.5)
                     Rectangle().fill(.orange).frame(width: 2, height: height)
-                        .position(x: (geometry.size.width - width) / 2 + width * race.settings.linePosition,
-                                  y: geometry.size.height / 2)
+                        .position(x: lineX, y: lineY)
                 }
             } else { ProgressView().tint(.white) }
             if let problem { Text(problem).font(.caption).foregroundStyle(.white).padding().background(.black.opacity(0.8)) }

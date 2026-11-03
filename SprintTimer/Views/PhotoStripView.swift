@@ -27,7 +27,8 @@ struct PhotoStripView: View {
                 }.onEnded { value in zoom = max(1, min(12, zoom * value.magnification)) })
                 .onChange(of: selectedFrame) { _, frame in
                     guard let tile = manifest.tiles.first(where: { frame >= $0.startFrame && frame < $0.startFrame + $0.frameCount }) else { return }
-                    proxy.scrollTo(tile.id, anchor: .center)
+                    let fraction = Double(frame - tile.startFrame) / Double(max(1, tile.frameCount - 1))
+                    proxy.scrollTo(tile.id, anchor: UnitPoint(x: fraction, y: 0.5))
                 }
             }
             HStack {

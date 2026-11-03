@@ -95,17 +95,21 @@ struct RaceView: View {
         return VStack(spacing: 14) {
             if manager.race.mode != .stopwatch {
                 if manager.cameraReady {
-                    CameraPreview(session: manager.camera.session)
-                        .aspectRatio(manager.cameraAspect, contentMode: .fit)
-                        .frame(maxHeight: 380)
-                        .overlay { GeometryReader { geometry in
-                            let width = geometry.size.width
-                            Rectangle().fill(manager.motion > manager.race.settings.motionThreshold ? Color.green.opacity(0.24) : Color.orange.opacity(0.12))
-                                .frame(width: width * manager.race.settings.regionWidth)
-                                .position(x: width * manager.race.settings.linePosition, y: geometry.size.height / 2)
-                            Rectangle().fill(.orange).frame(width: 2)
-                                .position(x: width * manager.race.settings.linePosition, y: geometry.size.height / 2)
-                        }}
+                    GeometryReader { outer in
+                        let aspect: CGFloat = manager.cameraAspect
+                        let height: CGFloat = min(380, outer.size.width / aspect)
+                        let width: CGFloat = height * aspect
+                        CameraPreview(session: manager.camera.session)
+                            .frame(width: width, height: height)
+                            .overlay {
+                                Rectangle().fill(manager.motion > manager.race.settings.motionThreshold ? Color.green.opacity(0.24) : Color.orange.opacity(0.12))
+                                    .frame(width: width * CGFloat(manager.race.settings.regionWidth))
+                                    .position(x: width * CGFloat(manager.race.settings.linePosition), y: height * CGFloat(0.5))
+                                Rectangle().fill(.orange).frame(width: 2)
+                                    .position(x: width * CGFloat(manager.race.settings.linePosition), y: height * CGFloat(0.5))
+                            }
+                            .clipped().position(x: outer.size.width * CGFloat(0.5), y: outer.size.height * CGFloat(0.5))
+                    }.frame(height: 380)
                         .background(.black).clipShape(RoundedRectangle(cornerRadius: 16))
                     Text("iPhone en portrait · \(manager.configuredFPS.formatted(.number.precision(.fractionLength(1)))) i/s configurées")
                         .font(.caption).foregroundStyle(.secondary)
