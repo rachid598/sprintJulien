@@ -45,6 +45,19 @@ CI finale : **Réussie** — [exécution 41591352456](https://github.com/rachid5
 - [ ] Vérifier les permissions refusées, interruptions, appels, verrouillage, manque de stockage et réouverture après arrêt brutal.
 - [ ] Exporter un IPA signé lorsque l’équipe Apple et les profils adaptés sont disponibles. L’installation par **Run** reste le parcours recommandé pour Julien.
 
+## Parité issue de l’analyse approfondie de la référence
+
+La [carte des interfaces](docs/INTERFACES.md) établit des options présentes dans les ressources commerciales ; leurs corps de méthodes restent protégés dans cet IPA.
+
+- [x] Examiner les 170 fichiers NIB, leurs variantes et les catalogues graphiques.
+- [x] Installer et vérifier ipsw ; faire fonctionner Hopper via REA ; rendre les captures PNG iOS lisibles.
+- [ ] Correction du départ manuel sur une courbe audio conservée (Hand+Mic).
+- [ ] Analyse vidéo Dual avec deux images voisines et repères L/R.
+- [ ] Pause/reprise de capture et début automatique configurable.
+- [ ] Réglages de départ press/release, signal et commandes plus complets.
+- [ ] Tri de marquage, passages intermédiaires et options d’export supplémentaires.
+- [ ] Comparaison réelle des parcours de l’original sur un iPhone accessible.
+
 ## Améliorations prioritaires
 
 - [ ] Capture photo source plus large ou vidéo source facultative pour réextraire des bandes d’une autre largeur ou position après la course. Le zoom actuel ne fait pas ce traitement.

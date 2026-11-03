@@ -2,6 +2,8 @@
 
 Analyse du 3 novembre 2026. La référence est l’application commerciale de Sten Kaiser, distincte de l’implémentation originale de ce dépôt. Aucun code décompilé ni ressource graphique de cette application n’est repris ici.
 
+Complément du 3 novembre 2026 : une [analyse approfondie de l’IPA](DECOMPILATION.md) a désormais examiné les 170 fichiers NIB et produit une [carte des interfaces](INTERFACES.md). Elle précise la plage de code déclarée chiffrée et les résultats des outils natifs.
+
 ## Périmètre et niveau de preuve
 
 La méthode suit le skill [REA — Reverse Engineer Anything](https://github.com/morluto/rea). L’IPA fourni a été inventorié sans être exécuté. Ses guides HTML et deux illustrations ont été examinés. Le manifeste a ensuite été lu par REA dans une session consacrée aux ressources. Les guides officiels en ligne ont servi de référence complémentaire.
@@ -42,7 +44,7 @@ Le guide du départ décrit aussi une correction manuelle ultérieure à partir 
 
 `photofinish.jpg`, inclus dans le guide de vue d’ensemble de l’IPA, montre une composition horizontale de coureurs avec plusieurs repères verticaux et leurs temps. `videofinish.jpg` montre deux images ordinaires de course à deux instants différents, chacune avec un temps et un repère d’arrivée. Elles illustrent la différence entre un axe horizontal représentant le temps et une image représentant l’espace.
 
-Ces illustrations sont des exemples de la référence. Elles ne sont ni des captures réalisées pendant cette analyse ni des tests de la reconstruction. Les fichiers `startModes.png` et `ResultsManager.png` présents dans le paquet n’ont pas pu être affichés par le décodeur d’images utilisé ; leur simple présence ne prouve pas leur mise en page. Aucun parcours tactile réel de l’application commerciale n’a été observé.
+Ces illustrations sont des exemples de la référence. Elles ne sont ni des captures réalisées pendant cette analyse ni des tests de la reconstruction. Les fichiers `startModes.png` et `ResultsManager.png`, initialement illisibles, ont ensuite été convertis avec le `pngcrush` de Xcode et examinés. Ils montrent respectivement les écrans de départ et un schéma du gestionnaire de résultats. Il s’agit toujours d’illustrations embarquées, pas d’une observation du programme en fonctionnement. Aucun parcours tactile réel de l’application commerciale n’a été observé.
 
 ## Modèle d’états recommandé pour la reconstruction
 

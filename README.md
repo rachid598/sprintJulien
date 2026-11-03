@@ -85,7 +85,7 @@ bash scripts/ci-ios.sh
 | Accueil iPad sombre | Application lancée et affichage inspecté sur simulateur iPad (A16) / iOS 27 |
 | CI finale | **Réussie** — [exécution 41591352456](https://github.com/rachid598/sprintJulien/actions/runs/41591352456) : tests Swift et iOS, archive Release et publication des artefacts. |
 | Caméra, microphone, performance et installation sur iPhone réel | Non testés : aucun appareil disponible |
-| Export d’un IPA signé | Non effectué : aucune identité de signature adaptée disponible |
+| Export d’un IPA signé | Non effectué : identité Apple Development détectée ; profil compatible et export signé encore à vérifier |
 
 La [GitHub Action iOS](https://github.com/rachid598/sprintJulien/actions/workflows/ios.yml) réalise les tests Swift, les tests simulateur et une archive pour appareil avec `CODE_SIGNING_ALLOWED=NO`. Ses journaux et résultats sont conservés en artefacts. Une archive non signée vérifie la compilation pour appareil et doit être signée avant installation.
 
@@ -98,6 +98,8 @@ Le [rapport de vérification](VERIFICATION.md) précise les essais effectués, l
 - [ROADMAP.md](ROADMAP.md) : état fonctionnel et travaux restants.
 - [VERIFICATION.md](VERIFICATION.md) : rapport de compilation, de tests et limites de la livraison.
 - [Validation sur appareil](docs/DEVICE_VALIDATION.md) : protocole terrain et tableau de mesures à remplir.
+- [Analyse approfondie de l’IPA et des outils](docs/DECOMPILATION.md) : 170 NIB examinés, limites du code chiffré.
+- [Carte détaillée des interfaces](docs/INTERFACES.md) : contrôleurs, actions et écarts fonctionnels.
 - [Analyse de la référence](docs/REFERENCE_ANALYSIS.md) : sources, preuves REA et limites de l’enquête.
 
 Les noms, images, vidéos et résultats restent dans le stockage local de l’application jusqu’à un partage explicite. Aucun serveur, compte utilisateur ni service de télémétrie n’est requis. La suppression d’une course supprime aussi ses médias ; exporter les données à conserver avant une suppression ou une désinstallation.
