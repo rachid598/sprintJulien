@@ -2,6 +2,8 @@
 
 Rapport du 3 novembre 2026. Les méthodes ont été recherchées dans les documentations primaires, puis appliquées au fichier fourni. Cette analyse complète la première lecture des guides. Elle ne prétend pas avoir récupéré le projet Xcode commercial ni exécuté l’application originale sur un iPhone.
 
+Une recherche complémentaire demandée sur Reddit a identifié **UnfairPlay**, une voie de déchiffrement sur Mac conditionnée à un enrôlement App Store correspondant. Le diagnostic du fichier est reconnu, mais aucun code en clair n’a été obtenu. Voir [les méthodes et prérequis vérifiés](METHODES_REDDIT.md).
+
 ## Résultat concret
 
 - `ipsw` 3.1.741 installé et exécuté ; publication officielle et empreinte vérifiées.

@@ -47,3 +47,7 @@ Source : [Apple QA1681](https://developer.apple.com/library/archive/qa/qa1681/).
 Hopper est déjà utilisable. Ghidra constitue une autre possibilité pour corroborer l’analyse d’un exécutable lisible. La version REA connectée demande Ghidra 12.1.x ; la recherche identifie le couple Ghidra 12.1.4 et JDK 21 ARM64, avec décompilateur natif adapté au Mac. Ce second moteur n’a pas été ajouté : le moteur Hopper fonctionne déjà et le verrou rencontré sur ce fichier est le contenu chiffré. Une installation supplémentaire ne restituerait pas ces octets en clair.
 
 Sources : [installation REA](https://github.com/morluto/rea/blob/main/docs/installation.md), [Hopper](https://www.hopperapp.com/), [documentation Mach-O d’ipsw](https://blacktop.github.io/ipsw/docs/guides/macho/).
+
+## Complément Reddit
+
+UnfairPlay v0.2.0 a été préparé et son diagnostic du fichier exécuté, sans collecte administrateur du modèle de compte. Voir [METHODES_REDDIT.md](METHODES_REDDIT.md).
