@@ -42,7 +42,7 @@ flowchart LR
 | `PersistenceService` / `RaceFiles` | `SprintTimer/Services` | Index SwiftData, documents JSON, récupération des points de reprise et suppression des médias. |
 | `ExportService` | `SprintTimer/Services` | CSV, PDF paginé, PNG annoté et partage des originaux. |
 
-`HomeView` gère l’historique ; `NewRaceView` configure la course ; `RaceView` présente le déroulement et l’analyse. `PhotoStripView` affiche les tuiles à la demande dans une pile horizontale paresseuse. `VideoReviewView` demande une image vidéo à l’instant sélectionné et signale une différence de décodage notable. `ResultEditView` modifie l’attribution et le temps.
+`HomeView` gère l’historique ; `NewRaceView` configure la course, dont sa date et son heure ; `RaceView` présente le déroulement et l’analyse. `PhotoStripView` affiche les tuiles à la demande dans une pile horizontale paresseuse. `VideoReviewView` demande une image vidéo à l’instant sélectionné et contrôle son temps de décodage. `ResultEditView` modifie l’attribution et le temps.
 
 ## Concurrence et états
 
@@ -67,7 +67,7 @@ temps de l’image = horodatage_hôte_de_l’image − origine
 
 Un décalage positif recule donc l’origine et augmente le résultat. Un second départ est ignoré jusqu’à la réinitialisation. L’arrêt fige le temps ; une nouvelle tentative crée un nouvel identifiant de course en conservant l’ancienne.
 
-Pour chaque image, `CameraManager` lit le PTS du `CMSampleBuffer`, puis le convertit de `session.synchronizationClock` vers l’horloge hôte avec `CMSyncConvertTime`. Le manifeste conserve le PTS original, le temps hôte converti et le temps depuis le départ. La date de création d’une course sert au classement de l’historique, jamais à mesurer une arrivée.
+Pour chaque image, `CameraManager` lit le PTS du `CMSampleBuffer`, puis le convertit de `session.synchronizationClock` vers l’horloge hôte avec `CMSyncConvertTime`. Le manifeste conserve le PTS original, le temps hôte converti et le temps depuis le départ. La date configurable d’une course sert au classement de l’historique, jamais à mesurer une arrivée.
 
 Le microphone utilise le temps hôte du tampon audio et ajoute l’indice du premier échantillon qui dépasse le seuil, divisé par la fréquence d’échantillonnage. Le bip utilise son instant de lecture programmé. Les latences physiques d’entrée et de sortie, la propagation acoustique et la réaction humaine restent à calibrer sur appareil : le code ne les mesure pas automatiquement.
 
@@ -89,6 +89,8 @@ Une bande choisie retourne son horodatage stocké. Si deux bandes sont séparée
 ## Vidéo et arrivée instantanée
 
 `VideoFinishEngine` enregistre une vidéo **continue** H.264, sans réordonnancement d’images, plafonnée à 60 i/s par la configuration. Le PTS de la première image fixe le début du fichier. Une image n’est ajoutée au manifeste vidéo que si l’encodeur l’a acceptée. Le score de mouvement est conservé pour chaque image ; il ne sert pas à supprimer les séquences calmes. L’analyse sélectionne les images enregistrées, sans interpolation vidéo.
+
+Lors d’un changement d’image sélectionnée, le marquage est désactivé jusqu’à la fin du décodage. `AVAssetImageGenerator` utilise des tolérances de recherche nulles ; le résultat doit correspondre à l’instant demandé à 3 ms près. En cas d’écart supérieur, d’échec ou de fichier absent, le marquage reste désactivé et un message est affiché. Ce seuil vérifie la correspondance entre image et PTS du fichier ; il ne certifie pas la précision du chronométrage physique.
 
 Le détecteur compare 24 × 48 échantillons de luminance dans la zone verticale autour de la ligne. Le score est la différence absolue moyenne, normalisée entre 0 et 1. Une valeur dépassant le seuil peut déclencher une arrivée. Deux images calmes sont nécessaires pour réarmer le détecteur, en plus de la temporisation entre déclenchements. Une entrée pendant la temporisation ne doit pas produire un résultat retardé lorsque ce délai expire.
 
@@ -126,6 +128,8 @@ Les exports graphiques sont préparés sur le `MainActor` ; un indicateur affich
 
 ## Tests et frontière de validation
 
-Les tests du package vérifient les règles temporelles, l’offset, les chronologies irrégulières, les pixels des bandes, le détecteur et le CSV. Les tests iOS couvrent l’adaptateur BGRA/PNG, le changement de tuile et la persistance. Le test d’interface décrit une course manuelle, son marquage et sa réouverture. Leurs résultats d’exécution sont consignés dans le README et les journaux de CI ; une compilation des tests seule n’établit pas leur réussite.
+Les 20 tests du package vérifient les règles temporelles, l’offset, les chronologies irrégulières, les pixels des bandes, le détecteur et le CSV. Les 10 tests iOS couvrent l’adaptateur BGRA/PNG, le changement de tuile, la persistance, les exports et la vidéo. `VideoFinishEngineTests` encode réellement trois images synthétiques aux PTS irréguliers 1000,000 / 1000,020 / 1000,070 s, relit le MOV avec `AVAssetReader`, puis extrait chaque image avec `AVAssetImageGenerator` à tolérance nulle. Il vérifie les dimensions et les écarts de temps du fichier obtenu ; il ne se contente pas de vérifier le manifeste d’entrée.
+
+Le test d’interface exécute une course manuelle, son marquage, sa sauvegarde et sa réouverture. Les 31 tests distincts ont passé ; les résultats et la frontière de validation sont détaillés dans [VERIFICATION.md](VERIFICATION.md). Les preuves locales iOS proviennent de Xcode 27.0 et d’un simulateur iPhone 17 Pro / iOS 27.
 
 Les entrées synthétiques sont limitées aux tests. L’application ne remplace pas la caméra ou les résultats par une simulation. Les performances du capteur, la précision acoustique et les passages réels exigent le [protocole sur appareil](docs/DEVICE_VALIDATION.md).

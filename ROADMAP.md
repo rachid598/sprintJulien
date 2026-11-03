@@ -6,7 +6,7 @@
 
 - [x] Projet `SprintTimer.xcodeproj`, cible et nom affiché `SprintTimer`, Swift 6, iOS/iPadOS 17 minimum, package local sans dépendance distante.
 - [x] Interface française, modes clair/sombre, dispositions iPhone/iPad et guide intégré.
-- [x] Courses nommées et datées à la création ; distances prédéfinies et personnalisées.
+- [x] Courses nommées, date et heure configurables ; distances prédéfinies et personnalisées.
 - [x] Participants avec noms, dossards et couloirs ; classement et correction des résultats.
 - [x] Départ manuel, bip programmé, compte à rebours annulable et microphone avec seuil.
 - [x] Horloge hôte monotone, décalage de départ réglable et affichage au centième.
@@ -21,6 +21,18 @@
 - [x] Export CSV, PDF, aperçu PNG annoté et partage des médias/métadonnées originaux.
 - [x] Tests du cœur, tests média/persistance iOS, test d’interface du parcours manuel et GitHub Action de tests/archive sans certificat.
 - [x] Documentation d’installation, d’architecture, d’analyse REA et protocole de validation terrain.
+
+## Vérifications logicielles réalisées
+
+- [x] 20 tests du cœur passés localement et en CI.
+- [x] 10 tests unitaires iOS et 1 test d’interface passés sur simulateur iPhone 17 Pro / iOS 27 avec Xcode 27.0.
+- [x] Extraction de bandes BGRA avec padding, rendu PNG et passage de la limite de 256 bandes vérifiés sur les pixels et dimensions.
+- [x] Encodage d’un MOV réel, relecture de trois images à horodatages irréguliers et extraction exacte par temps vérifiés.
+- [x] Exports CSV, PDF de 150 participants et PNG/originaux vérifiés par tests automatisés.
+- [x] Compilation Debug simulateur et archive Release iPhone non signée réussies.
+- [x] Accueil sombre lancé et inspecté sur simulateur iPad (A16) / iOS 27.
+
+CI finale : **Réussie** — [exécution 41591352456](https://github.com/rachid598/sprintJulien/actions/runs/41591352456) : tests Swift et iOS, archive Release et publication des artefacts.
 
 ## Validation à terminer avant un usage régulier sur le terrain
 
