@@ -1,41 +1,43 @@
-// Optional asset generator. The generated PNG is committed; Xcode needs no script.
-import AppKit
+// Optional original icon generator. The PNG is committed; no build-time dependency.
+import Foundation
+import CoreGraphics
+import ImageIO
+import UniformTypeIdentifiers
 let size = 1024
-let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: size, pixelsHigh: size,
-                          bitsPerSample: 8, samplesPerPixel: 3, hasAlpha: false,
-                          isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: size * 3, bitsPerPixel: 24)!
-NSGraphicsContext.saveGraphicsState()
-NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
-let dark = NSColor(calibratedRed: 0.055, green: 0.075, blue: 0.11, alpha: 1)
-dark.setFill()
-NSBezierPath(rect: NSRect(x: 0, y: 0, width: size, height: size)).fill()
-let orange = NSColor(calibratedRed: 1, green: 0.39, blue: 0.08, alpha: 1)
-orange.setFill()
-NSBezierPath(rect: NSRect(x: 700, y: 0, width: 324, height: 1024)).fill()
+let context = CGContext(data: nil, width: size, height: size, bitsPerComponent: 8,
+                        bytesPerRow: size * 4, space: CGColorSpaceCreateDeviceRGB(),
+                        bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
+func color(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat, _ alpha: CGFloat = 1) -> CGColor {
+    CGColor(red: r, green: g, blue: b, alpha: alpha)
+}
+context.setFillColor(color(0.055, 0.075, 0.11))
+context.fill(CGRect(x: 0, y: 0, width: size, height: size))
+context.setFillColor(color(1, 0.39, 0.08))
+context.fill(CGRect(x: 700, y: 0, width: 324, height: 1024))
 for x in [150, 320, 490] {
- NSColor.white.withAlphaComponent(0.08).setFill()
- NSBezierPath(rect: NSRect(x: x, y: 0, width: 7, height: 1024)).fill()
+    context.setFillColor(color(1, 1, 1, 0.08))
+    context.fill(CGRect(x: x, y: 0, width: 7, height: 1024))
 }
-NSColor.white.setStroke()
-let ring = NSBezierPath(ovalIn: NSRect(x: 188, y: 235, width: 566, height: 566))
-ring.lineWidth = 58
-ring.stroke()
-let hands = NSBezierPath()
-hands.move(to: NSPoint(x: 472, y: 697))
-hands.line(to: NSPoint(x: 472, y: 518))
-hands.line(to: NSPoint(x: 598, y: 430))
-hands.lineWidth = 54
-hands.lineCapStyle = .round
-hands.lineJoinStyle = .round
-hands.stroke()
-NSColor.white.setFill()
-NSBezierPath(roundedRect: NSRect(x: 387, y: 843, width: 170, height: 43), xRadius: 17, yRadius: 17).fill()
+context.setStrokeColor(color(1, 1, 1))
+context.setLineWidth(58)
+context.strokeEllipse(in: CGRect(x: 188, y: 235, width: 566, height: 566))
+context.setLineWidth(54)
+context.setLineCap(.round)
+context.setLineJoin(.round)
+context.move(to: CGPoint(x: 472, y: 697))
+context.addLine(to: CGPoint(x: 472, y: 518))
+context.addLine(to: CGPoint(x: 598, y: 430))
+context.strokePath()
+context.setFillColor(color(1, 1, 1))
+context.addPath(CGPath(roundedRect: CGRect(x: 387, y: 843, width: 170, height: 43),
+                       cornerWidth: 17, cornerHeight: 17, transform: nil))
+context.fillPath()
 for row in 0..<3 {
- for col in 0..<2 where (row + col) % 2 == 0 {
-  NSColor.white.setFill()
-  NSBezierPath(rect: NSRect(x: 775 + col * 68, y: 390 + row * 68, width: 68, height: 68)).fill()
- }
+    for column in 0..<2 where (row + column) % 2 == 0 {
+        context.fill(CGRect(x: 775 + column * 68, y: 390 + row * 68, width: 68, height: 68))
+    }
 }
-NSGraphicsContext.restoreGraphicsState()
-let png = rep.representation(using: .png, properties: [:])!
-try png.write(to: URL(fileURLWithPath: "SprintTimer/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png"))
+let url = URL(fileURLWithPath: "SprintTimer/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png")
+let destination = CGImageDestinationCreateWithURL(url as CFURL, UTType.png.identifier as CFString, 1, nil)!
+CGImageDestinationAddImage(destination, context.makeImage()!, nil)
+precondition(CGImageDestinationFinalize(destination), "Could not write original app icon")
