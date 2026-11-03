@@ -6,6 +6,7 @@ struct VideoReviewView: View {
     let race: RaceDocument
     let manifest: CaptureManifest
     let selectedFrame: Int
+    @Binding var frameReady: Bool
     @State private var image: UIImage?
     @State private var problem: String?
 
@@ -34,6 +35,9 @@ struct VideoReviewView: View {
 
     @MainActor
     private func loadFrame() async {
+        frameReady = false
+        image = nil
+        problem = nil
         guard manifest.frames.indices.contains(selectedFrame), let file = manifest.videoFile else { return }
         let index = selectedFrame
         do {
@@ -49,7 +53,8 @@ struct VideoReviewView: View {
             try Task.checkCancellation()
             guard index == selectedFrame else { return }
             image = UIImage(cgImage: result.image)
-            problem = abs(CMTimeGetSeconds(result.actualTime) - seconds) > 0.003
+            frameReady = abs(CMTimeGetSeconds(result.actualTime) - seconds) <= 0.003
+            problem = !frameReady
                 ? "L’image décodée diffère de l’horodatage demandé. Vérifiez les images voisines avant de marquer." : nil
         } catch is CancellationError { }
         catch { guard !Task.isCancelled else { return }; problem = error.localizedDescription }

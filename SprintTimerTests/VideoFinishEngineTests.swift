@@ -59,6 +59,21 @@ final class VideoFinishEngineTests: XCTestCase {
                            "Real movie timing must retain gaps instead of inventing a constant frame rate")
         }
         XCTAssertEqual(decodedTimes[2], 0.07, accuracy: 0.001)
+
+        // Exercise the exact-frame extraction used by VideoReviewView, not only
+        // sequential decoding. A selected timestamp must identify its own image.
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        generator.requestedTimeToleranceBefore = .zero
+        generator.requestedTimeToleranceAfter = .zero
+        for relativeSeconds in [0.0, 0.02, 0.07] {
+            let requested = CMTime(seconds: relativeSeconds, preferredTimescale: 1_000_000_000)
+            let result = try await generator.image(at: requested)
+            XCTAssertEqual(result.image.width, 128)
+            XCTAssertEqual(result.image.height, 96)
+            XCTAssertEqual(CMTimeGetSeconds(result.actualTime), relativeSeconds, accuracy: 0.003,
+                           "An exact seek must decode the image for the selected timestamp")
+        }
     }
 
     @MainActor

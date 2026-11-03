@@ -21,7 +21,8 @@ final class RaceManager {
     var motion = 0.0
     var microphoneLevel = 0.0
     var countdown = 0
-    var selectedFrame = 0
+    var selectedFrame = 0 { didSet { videoFrameReady = false } }
+    var videoFrameReady = false
     var selectedParticipant: UUID?
     var zoom = 1.0
     var saveProblem: String?
@@ -199,6 +200,7 @@ final class RaceManager {
 
     func markFrame() {
         guard let stamp = currentStamp else { return }
+        guard race.capture?.mode == .photo || videoFrameReady else { return }
         addResult(time: stamp.elapsedSeconds, source: race.mode == .photo ? "Photo-finish" : "Vidéo", frame: selectedFrame)
     }
 

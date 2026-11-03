@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import SprintTimerCore
 
 @MainActor
@@ -126,4 +127,3 @@ struct ShareSheet: UIViewControllerRepresentable {
     func updateUIViewController(_ view: UIActivityViewController, context: Context) { }
 }
 
-import SwiftUI

@@ -2,8 +2,8 @@
 import AppKit
 let size = 1024
 let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: size, pixelsHigh: size,
-                          bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true,
-                          isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: size * 4, bitsPerPixel: 32)!
+                          bitsPerSample: 8, samplesPerPixel: 3, hasAlpha: false,
+                          isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: size * 3, bitsPerPixel: 24)!
 NSGraphicsContext.saveGraphicsState()
 NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
 let dark = NSColor(calibratedRed: 0.055, green: 0.075, blue: 0.11, alpha: 1)

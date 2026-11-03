@@ -4,6 +4,7 @@ import SprintTimerCore
 struct NewRaceView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""
+    @State private var date = Date()
     @State private var mode = FinishMode.photo
     @State private var distance = 100
     @State private var customDistance = 100.0
@@ -16,6 +17,8 @@ struct NewRaceView: View {
             Form {
                 Section("Course") {
                     TextField("Nom de la course", text: $name).accessibilityIdentifier("race.name")
+                        .submitLabel(.done)
+                    DatePicker("Date", selection: $date, displayedComponents: [.date, .hourAndMinute])
                     Picker("Distance", selection: $distance) {
                         ForEach([30, 50, 100, 200, 400], id: \.self) { Text("\($0) m").tag($0) }
                         Text("Personnalisée").tag(0)
@@ -90,6 +93,7 @@ struct NewRaceView: View {
                         settings.startOffsetSeconds = max(-10, min(10, settings.startOffsetSeconds.isFinite ? settings.startOffsetSeconds : 0))
                         let meters = distance == 0 ? customDistance : Double(distance)
                         let race = RaceDocument(name: title.isEmpty ? "Course du \(Date().formatted(date: .abbreviated, time: .shortened))" : title,
+                            date: date,
                             distance: meters.isFinite ? max(1, min(100_000, meters)) : 100,
                             mode: mode, settings: settings, participants: cleaned)
                         onCreate(race)

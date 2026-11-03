@@ -1,4 +1,5 @@
 import CoreMedia
+import Foundation
 
 /// The timer and converted camera timestamps share the mach host clock.
 enum HostClock {
@@ -12,4 +13,3 @@ enum SprintError: LocalizedError {
     }
 }
 
-import Foundation

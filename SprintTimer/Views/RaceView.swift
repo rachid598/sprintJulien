@@ -170,7 +170,8 @@ struct RaceView: View {
                 if capture.mode == .photo {
                     PhotoStripView(race: manager.race, manifest: capture, selectedFrame: $model.selectedFrame, zoom: $model.zoom)
                 } else {
-                    VideoReviewView(race: manager.race, manifest: capture, selectedFrame: manager.selectedFrame)
+                    VideoReviewView(race: manager.race, manifest: capture, selectedFrame: manager.selectedFrame,
+                                    frameReady: $model.videoFrameReady)
                 }
                 HStack {
                     Button { manager.selectedFrame = max(0, manager.selectedFrame - 1) } label: { Image(systemName: "backward.frame.fill").padding(10) }
@@ -195,6 +196,7 @@ struct RaceView: View {
                 }
                 participantPicker
                 action("Marquer ce temps", symbol: "flag.fill", id: "race.mark.frame") { manager.markFrame() }
+                    .disabled(capture.mode != .photo && !manager.videoFrameReady)
                 DisclosureGroup("Qualité de la capture") {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("\(capture.frames.count) images conservées · \(capture.droppedFrames) pertes signalées")
@@ -292,7 +294,7 @@ struct RaceView: View {
         case .running: "COURSE EN COURS"
         case .recording: "CAPTURE DES ARRIVÉES"
         case .processing: "TRAITEMENT"
-        case .finished: "COURSE SAUVEGARDÉE"
+        case .finished: manager.saveProblem == nil ? "COURSE SAUVEGARDÉE" : "SAUVEGARDE À RÉESSAYER"
         }
     }
 }
