@@ -1,0 +1,10 @@
+{
+  "appId": "org.sprintjulien.sprinttimer",
+  "appName": "SprintTimer",
+  "webDir": "web",
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": false,
+    "webContentsDebuggingEnabled": false
+  }
+}

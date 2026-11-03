@@ -18,6 +18,14 @@ Dans Xcode, sélectionner la cible **SprintTimer**, choisir l’équipe Apple de
 
 Voir [INSTALLATION.md](INSTALLATION.md) pour les étapes détaillées, le mode développeur, les problèmes de signature et l’export IPA. Aucun IPA installable n’est livré sans identité et profil de signature valides ; le script `scripts/export-ipa.sh` peut produire `dist/SprintTimer.ipa` sur un Mac configuré pour signer.
 
+## Version web (PWA) et Android (APK)
+
+Sans Mac, SprintTimer existe aussi en **application web installable** (dossier `web/`) et en **APK Android** (dossier `android/`, Capacitor), avec les quatre modes. L'APK est construit par le workflow GitHub Actions **PWA & Android** et se télécharge dans les artefacts de l'exécution. La PWA s'héberge sur n'importe quelle adresse HTTPS et s'installe depuis Chrome ou Safari. Installation, fonctionnement et limites, notamment une cadence caméra en général limitée à 30 ou 60 i/s : voir [PWA_ANDROID.md](PWA_ANDROID.md).
+
+<img src="docs/screenshots/web-ready.png" alt="Préparation d'un photo-finish dans la PWA" width="200"> <img src="docs/screenshots/web-photo-finish.png" alt="Analyse photo-finish dans la PWA" width="200"> <img src="docs/screenshots/web-video-finish.png" alt="Revue image par image en vidéo-finish dans la PWA" width="200">
+
+Ces captures viennent de Chromium avec une caméra simulée (mire animée), pas d'une piste réelle.
+
 ## Fonctionnalités implémentées
 
 | Mode | Fonctionnement |

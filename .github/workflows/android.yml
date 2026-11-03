@@ -1,0 +1,87 @@
+name: PWA & Android
+
+on:
+  push:
+    branches: [main, 'claude/**']
+    paths:
+      - 'web/**'
+      - 'android/**'
+      - 'tests-web/**'
+      - 'scripts/*web*.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'capacitor.config.json'
+      - '.github/workflows/android.yml'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: PWA · tests unitaires et bout en bout
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Tests du cœur (temps, images, détection, CSV, PDF, cache hors ligne)
+        run: npm test
+      - name: Installer Chromium pour Playwright
+        run: |
+          npm install --no-save playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Parcours complet dans Chromium avec caméra simulée
+        run: npm run e2e
+      - name: Publier la PWA prête à héberger
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: SprintTimer-PWA-${{ github.sha }}
+          path: web/
+          if-no-files-found: error
+          retention-days: 30
+
+  apk:
+    name: APK Android (Capacitor)
+    needs: web
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v6.0.1
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+      - uses: android-actions/setup-android@v4.0.3
+      - run: npm ci
+      - name: Copier la PWA dans le projet Android
+        run: npx cap sync android
+      - name: Construire l'APK
+        working-directory: android
+        run: ./gradlew --no-daemon assembleDebug -PversionCode=${{ github.run_number }}
+      - name: Renommer l'APK
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/SprintTimer.apk
+          ls -l dist
+      - name: Publier l'APK
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: SprintTimer-APK-${{ github.run_number }}
+          path: dist/SprintTimer.apk
+          if-no-files-found: error
+          retention-days: 30

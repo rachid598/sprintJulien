@@ -1,0 +1,23 @@
+{
+  "name": "sprinttimer-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SprintTimer en application web installable (PWA) et APK Android via Capacitor.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests-web/*.test.js",
+    "serve": "node scripts/serve-web.mjs",
+    "e2e": "node scripts/e2e-web.mjs",
+    "android:sync": "cap sync android",
+    "android:apk": "cap sync android && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.6.0",
+    "@capacitor/filesystem": "8.1.5",
+    "@capacitor/share": "8.0.3"
+  },
+  "devDependencies": {
+    "@capacitor/android": "8.6.0",
+    "@capacitor/cli": "8.6.0"
+  }
+}
