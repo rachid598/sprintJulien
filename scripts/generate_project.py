@@ -77,6 +77,7 @@ def make_project():
         "CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER": "YES",
     }
     app = {
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
         "PRODUCT_NAME": "SprintTimer", "PRODUCT_BUNDLE_IDENTIFIER": "org.sprintjulien.SprintTimer",
         "INFOPLIST_FILE": "SprintTimer/Resources/Info.plist", "GENERATE_INFOPLIST_FILE": "NO",
         "CODE_SIGN_STYLE": "Automatic", "DEVELOPMENT_TEAM": "",

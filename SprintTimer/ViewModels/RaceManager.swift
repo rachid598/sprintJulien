@@ -204,6 +204,7 @@ final class RaceManager {
 
     func addResult(time: Double, source: String, frame: Int?) {
         guard time.isFinite, time >= 0 else { return }
+        if phase == .running || phase == .recording { race.elapsedSeconds = max(race.elapsedSeconds, time) }
         if let id = selectedParticipant, let index = race.results.firstIndex(where: { $0.participantID == id }) {
             race.results[index].elapsedSeconds = time
             race.results[index].source = source

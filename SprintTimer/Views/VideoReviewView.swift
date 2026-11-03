@@ -17,9 +17,9 @@ struct VideoReviewView: View {
                     Image(uiImage: image).resizable().scaledToFit()
                         .frame(width: geometry.size.width, height: geometry.size.height)
                     // Fit the overlay to the same letterboxed image rectangle.
-                    let aspect = image.size.width / image.size.height
-                    let width = min(geometry.size.width, geometry.size.height * aspect)
-                    let height = width / aspect
+                    let aspect: CGFloat = image.size.width / image.size.height
+                    let width: CGFloat = min(geometry.size.width, geometry.size.height * aspect)
+                    let height: CGFloat = width / aspect
                     Rectangle().fill(.orange).frame(width: 2, height: height)
                         .position(x: (geometry.size.width - width) / 2 + width * race.settings.linePosition,
                                   y: geometry.size.height / 2)
